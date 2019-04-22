@@ -1,5 +1,8 @@
 // webpack v4
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const dist = path.resolve(__dirname, "dist");
+
 module.exports = {
   entry: { main: './src/index.js' },
   module: {
@@ -11,7 +14,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -22,12 +25,17 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'public/index.html'
+    })
+  ],
   output: {
-    path: __dirname + '/dist',
+    path: dist,
     publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: dist
   }
 };
